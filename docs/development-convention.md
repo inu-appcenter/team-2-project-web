@@ -199,7 +199,15 @@ lab-card.tsx
 lab-card.stories.tsx
 ```
 
-Storybook과 Chromatic 명령은 관련 패키지 및 스크립트가 프로젝트에 설정된 이후 이 문서에 추가한다.
+```bash
+pnpm storybook
+pnpm build-storybook
+pnpm chromatic
+```
+
+- Storybook 개발 서버는 기본적으로 `http://localhost:6006`에서 실행한다.
+- Chromatic 프로젝트 토큰은 `CHROMATIC_PROJECT_TOKEN` 환경 변수와 GitHub Actions secret으로 관리한다.
+- 프로젝트 토큰을 저장소나 환경 변수 예시 파일에 직접 작성하지 않는다.
 
 ## 12. 코드 품질과 PR
 

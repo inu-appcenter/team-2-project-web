@@ -104,6 +104,21 @@ pnpm dev
 | `pnpm lint` | ESLint 검사 |
 | `pnpm build` | 프로덕션 빌드 생성 |
 | `pnpm start` | 프로덕션 서버 실행 |
+| `pnpm storybook` | Storybook 개발 서버 실행 |
+| `pnpm build-storybook` | Storybook 정적 빌드 생성 |
+| `pnpm chromatic` | Storybook을 Chromatic에 게시 |
+
+## Storybook과 Chromatic
+
+Storybook은 기본적으로 [http://localhost:6006](http://localhost:6006)에서 실행됩니다.
+
+Chromatic을 사용하려면 Chromatic에서 프로젝트를 생성한 뒤 GitHub 저장소의 Actions secret에 프로젝트 토큰을 등록합니다.
+
+```text
+CHROMATIC_PROJECT_TOKEN
+```
+
+토큰이 등록되면 `main` 브랜치 push와 pull request에서 Chromatic 워크플로가 실행됩니다. 로컬에서는 같은 이름의 환경 변수를 설정한 뒤 `pnpm chromatic`을 실행합니다. 프로젝트 토큰은 코드나 환경 변수 예시 파일에 직접 기록하지 않습니다.
 
 ## 프로젝트 구조
 
