@@ -1,0 +1,61 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+@theme {
+  --color-button-primary: var(--color-primary-primary-300);
+  --color-button-primary-hover: var(--color-primary-primary-400);
+  --color-button-primary-press: var(--color-primary-primary-500);
+  --color-button-secondary: var(--color-secondary-secondary-300);
+  --color-button-secondary-hover: var(--color-secondary-secondary-400);
+  --color-button-secondary-press: var(--color-secondary-secondary-500);
+  --color-button-tertiary: var(--color-gray-gray-300);
+  --color-button-tertiary-hover: var(--color-gray-gray-400);
+  --color-button-tertiary-press: var(--color-gray-gray-500);
+  --color-text-primary: var(--color-primary-primary-600);
+  --color-text-primary-light: var(--color-primary-primary-500);
+  --color-text-primary-dark: var(--color-primary-primary-600);
+  --color-text-success: var(--color-green-green-300);
+  --color-text-warning: var(--color-yellow-yellow-300);
+  --color-text-error: var(--color-red-red-300);
+  --color-text-subtle: var(--color-gray-gray-700);
+  --color-text-inverse: var(--color-gray-gray-0);
+  --color-text-default: var(--color-gray-gray-900);
+  --color-text-subtlest: var(--color-gray-gray-400);
+  --color-text-disabled: var(--color-gray-gray-300);
+  --color-text-secondary: var(--color-secondary-secondary-600);
+  --color-bg-default: var(--color-gray-gray-0);
+  --color-bg-subtle: var(--color-gray-gray-50);
+  --color-bg-neutral: var(--color-gray-gray-100);
+  --color-bg-primary: var(--color-primary-primary-300);
+  --color-bg-primary-hover: var(--color-primary-primary-400);
+  --color-bg-primary-press: var(--color-primary-primary-500);
+  --color-bg-primary-subtle: var(--color-primary-primary-50);
+  --color-bg-disabled: var(--color-gray-gray-100);
+  --color-bg-success: var(--color-green-green-50);
+  --color-bg-warning: var(--color-yellow-yellow-50);
+  --color-bg-error: var(--color-red-red-50);
+  --color-bg-secondary: var(--color-secondary-secondary-300);
+  --color-bg-secondary-hover: var(--color-secondary-secondary-400);
+  --color-bg-secondary-press: var(--color-secondary-secondary-500);
+  --color-bg-secondary-subtle: var(--color-secondary-secondary-50);
+  --color-icon-default: var(--color-gray-gray-700);
+  --color-icon-subtle: var(--color-gray-gray-400);
+  --color-icon-inverse: var(--color-gray-gray-0);
+  --color-icon-primary: var(--color-primary-primary-500);
+  --color-icon-success: var(--color-gray-gray-700);
+  --color-icon-subtlest: var(--color-gray-gray-300);
+  --color-icon-disabled: var(--color-gray-gray-300);
+  --color-icon-warning: var(--color-yellow-yellow-300);
+  --color-icon-error: var(--color-red-red-300);
+  --color-icon-secondary: var(--color-secondary-secondary-500);
+  --color-border-default: var(--color-gray-gray-400);
+  --color-border-subtle: var(--color-gray-gray-300);
+  --color-border-primary: var(--color-primary-primary-300);
+  --color-border-success: var(--color-green-green-300);
+  --color-border-warning: var(--color-yellow-yellow-300);
+  --color-border-error: var(--color-red-red-300);
+  --color-border-disabled: var(--color-gray-gray-300);
+  --color-border-subtlest: var(--color-gray-gray-200);
+  --color-border-secondary: var(--color-secondary-secondary-300);
+}
