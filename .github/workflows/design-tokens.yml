@@ -1,0 +1,71 @@
+name: Design Tokens
+
+on:
+  push:
+    branches:
+      - tokens
+    paths:
+      - "tokens/**"
+  pull_request:
+    paths:
+      - "tokens/**"
+      - "scripts/style-dictionary.config.mjs"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: design-tokens-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-tokens:
+    name: Build tokens
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref || github.ref }}
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.15.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build tokens
+        run: pnpm tokens:build
+
+      # push to `tokens`: commit the regenerated CSS, then open/update a PR
+      # into main so a human reviews the token + CSS diff together.
+      - name: Commit generated CSS
+        if: github.event_name == 'push'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(tokens): rebuild generated CSS from tokens/"
+          file_pattern: "src/styles/*.generated.css"
+
+      - name: Open/update PR to main
+        if: github.event_name == 'push'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: tokens
+          base: main
+          title: "Design tokens update"
+          commit-message: "chore(tokens): sync from Figma/Tokens Studio"
+
+      # pull_request: fail if generated CSS is out of sync with tokens/*.json,
+      # so nobody hand-edits the generated files and drifts from source.
+      - name: Verify generated CSS is up to date
+        if: github.event_name == 'pull_request'
+        run: git diff --exit-code -- src/styles/*.generated.css

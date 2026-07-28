@@ -1,0 +1,31 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+@media (min-width: 768px) {
+  :root {
+    --color-opacity-white-0: rgba(255, 255, 255, 0);
+    --color-opacity-white-5: rgba(255, 255, 255, 0.05);
+    --color-opacity-white-10: rgba(255, 255, 255, 0.1);
+    --color-opacity-white-25: rgba(255, 255, 255, 0.25);
+    --color-opacity-white-50: rgba(255, 255, 255, 0.5);
+    --color-opacity-white-75: rgba(255, 255, 255, 0.75);
+    --radius-sm: 4;
+    --typography-font-size-display1: 56;
+    --typography-font-size-display2: 40;
+    --typography-font-size-display3: 36;
+    --typography-font-size-title3: 24;
+    --typography-font-size-title1: 32;
+    --typography-font-size-title2: 28;
+    --typography-font-size-heading1: 22;
+    --typography-font-size-heading2: 20;
+    --font-size-heading1: 22;
+    --font-size-title1: 32;
+    --font-size-display2: 40;
+    --font-size-display3: 36;
+    --font-size-display1: 56;
+    --font-size-heading2: 20;
+    --font-size-title3: 24;
+    --font-size-title2: 28;
+  }
+}
