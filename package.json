@@ -10,7 +10,8 @@
     "lint": "eslint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "chromatic"
+    "chromatic": "chromatic",
+    "tokens:build": "node scripts/style-dictionary.config.mjs"
   },
   "dependencies": {
     "next": "16.2.10",
@@ -23,6 +24,7 @@
     "@storybook/addon-docs": "10.5.2",
     "@storybook/nextjs-vite": "10.5.2",
     "@tailwindcss/postcss": "^4",
+    "@tokens-studio/sd-transforms": "2.0.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -30,6 +32,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
     "storybook": "10.5.2",
+    "style-dictionary": "5.5.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
