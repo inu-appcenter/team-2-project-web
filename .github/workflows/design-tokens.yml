@@ -46,23 +46,17 @@ jobs:
       - name: Build tokens
         run: pnpm tokens:build
 
-      # push to `tokens`: commit the regenerated CSS, then open/update a PR
-      # into main so a human reviews the token + CSS diff together.
+      # push to `tokens`: commit the regenerated CSS directly to the branch.
+      # A human opens/reviews the tokens -> main PR separately; we must not
+      # recreate the `tokens` branch here, since create-pull-request with
+      # branch == the currently checked-out branch force-resets it and wipes
+      # out any commits pushed after this workflow's checkout.
       - name: Commit generated CSS
         if: github.event_name == 'push'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore(tokens): rebuild generated CSS from tokens/"
           file_pattern: "src/styles/*.generated.css"
-
-      - name: Open/update PR to main
-        if: github.event_name == 'push'
-        uses: peter-evans/create-pull-request@v7
-        with:
-          branch: tokens
-          base: main
-          title: "Design tokens update"
-          commit-message: "chore(tokens): sync from Figma/Tokens Studio"
 
       # pull_request: fail if generated CSS is out of sync with tokens/*.json,
       # so nobody hand-edits the generated files and drifts from source.
