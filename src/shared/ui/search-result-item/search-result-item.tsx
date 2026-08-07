@@ -1,5 +1,11 @@
 import { Tag } from "../tag";
-import type { SearchResultItemProps } from "./types";
+
+export type SearchResultItemProps = {
+  info?: string;
+  name?: string;
+  showTags?: boolean;
+  tags?: string[];
+};
 
 export function SearchResultItem({
   info = "교수명 · 학과",

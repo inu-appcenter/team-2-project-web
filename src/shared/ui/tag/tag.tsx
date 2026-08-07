@@ -1,4 +1,11 @@
-import type { RecruitmentStatus, TagProps, TagTone } from "./types";
+import type { HTMLAttributes, ReactNode } from "react";
+
+type TagTone = "neutral" | "primary" | "success" | "warning" | "error";
+
+export type TagProps = HTMLAttributes<HTMLSpanElement> & {
+  children: ReactNode;
+  tone?: TagTone;
+};
 
 const toneClasses: Record<TagTone, string> = {
   neutral: "bg-bg-neutral text-text-subtle",
@@ -18,6 +25,8 @@ export function Tag({ children, className, tone = "neutral", ...props }: TagProp
     </span>
   );
 }
+
+export type RecruitmentStatus = "open" | "upcoming" | "closed";
 
 const recruitmentStatus: Record<RecruitmentStatus, { label: string; tone: TagTone }> = {
   open: { label: "모집 중", tone: "success" },

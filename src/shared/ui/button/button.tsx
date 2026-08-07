@@ -1,6 +1,16 @@
 "use client";
 
-import type { ButtonSize, ButtonProps, ButtonVariant } from "./types";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
+
+type ButtonVariant = "primary" | "secondary" | "tertiary";
+type ButtonSize = "sm" | "md";
+
+export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  children: ReactNode;
+  size?: ButtonSize;
+  variant?: ButtonVariant;
+  isLoading?: boolean;
+};
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
