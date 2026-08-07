@@ -1,12 +1,6 @@
 "use client";
 
-import type { InputHTMLAttributes, ReactNode } from "react";
-
-export type FieldProps = InputHTMLAttributes<HTMLInputElement> & {
-  label?: string;
-  error?: string;
-  trailing?: ReactNode;
-};
+import type { FieldProps } from "./types";
 
 export function Field({
   className,

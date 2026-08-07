@@ -1,10 +1,6 @@
 "use client";
 
-import type { InputHTMLAttributes, ReactNode } from "react";
-
-type SelectionProps = InputHTMLAttributes<HTMLInputElement> & {
-  children: ReactNode;
-};
+import type { SelectionProps } from "./types";
 
 export function Radio({ children, className, ...props }: SelectionProps) {
   return (
