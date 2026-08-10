@@ -143,11 +143,11 @@
   --font-weight-semibold: Semibold;
   --font-weight-medium: Medium;
   --font-weight-regular: Regular;
-  --font-font-pretendard: Pretendard;
+  --font-font-pretendard: Wanted Sans;
   --font-size-label2: 13;
   --font-size-label1: 14;
-  --font-size-body2: 14;
-  --font-size-body1: 16;
+  --font-size-body2: 16;
+  --font-size-body1: 18;
   --font-size-headline2: 16;
   --font-size-heading1: 20;
   --font-size-caption2: 11;
@@ -160,4 +160,5 @@
   --font-size-title3: 22;
   --font-size-headline1: 18;
   --font-size-title2: 24;
+  --font-size-body3: 14;
 }
