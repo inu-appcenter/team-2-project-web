@@ -17,6 +17,35 @@ const BREAKPOINT = '768px'; // matches Tailwind's default `md` breakpoint
 
 const raw = JSON.parse(readFileSync('tokens/tokens.json', 'utf-8'));
 
+// Tokens Studio lets a token be typed as generic "Number" instead of the
+// semantic type (Spacing / Border Radius / Font Sizes), and that's how these
+// sets were synced from Figma. sd-transforms' px transform only adds a `px`
+// unit to tokens typed dimension/fontSize/etc, so anything left as "number"
+// renders as a bare value (e.g. `12` instead of `12px`). Retype the known
+// dimension categories here so px units come out regardless of what type
+// was picked in Figma.
+function retype(tree, type) {
+  if (!tree || typeof tree !== 'object') return tree;
+  if ('$value' in tree) return tree.$type === 'number' ? { ...tree, $type: type } : tree;
+  return Object.fromEntries(Object.entries(tree).map(([k, v]) => [k, retype(v, type)]));
+}
+
+function normalizeDimensionTypes(set) {
+  if (!set) return set;
+  const out = { ...set };
+  if (out.radius) out.radius = retype(out.radius, 'dimension');
+  if (out.spacing) out.spacing = retype(out.spacing, 'dimension');
+  if (out['font-size']) out['font-size'] = retype(out['font-size'], 'fontSize');
+  if (out.typography?.['font-size']) {
+    out.typography = { ...out.typography, 'font-size': retype(out.typography['font-size'], 'fontSize') };
+  }
+  return out;
+}
+
+for (const key of ['Primitive/mobile', 'Primitive/desktop', 'Typography/mobile', 'Typography/desktop']) {
+  if (raw[key]) raw[key] = normalizeDimensionTypes(raw[key]);
+}
+
 function deepMerge(a, b) {
   const out = { ...a };
   for (const [key, value] of Object.entries(b)) {
