@@ -26,9 +26,9 @@ const variantClasses: Record<ButtonVariant, string> = {
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: "h-[37px] px-[calc(var(--spacing-spacing-4)*1px)] text-[length:calc(var(--font-size-body3)*1px)]",
-  md: "h-[44px] px-[calc(var(--spacing-spacing-5)*1px)] text-[length:calc(var(--font-size-body2)*1px)]",
-  lg: "h-[51px] px-[calc(var(--spacing-spacing-6)*1px)] text-[length:calc(var(--font-size-body1)*1px)]",
+  sm: "h-[37px] px-[var(--spacing-spacing-4)] text-[length:var(--font-size-body3)]",
+  md: "h-[44px] px-[var(--spacing-spacing-5)] text-[length:var(--font-size-body2)]",
+  lg: "h-[51px] px-[var(--spacing-spacing-6)] text-[length:var(--font-size-body1)]",
 };
 
 export function Button({
@@ -46,7 +46,7 @@ export function Button({
 
   return (
     <button
-      className={`inline-flex shrink-0 items-center justify-center gap-[calc(var(--spacing-spacing-1)*1px)] rounded-[calc(var(--radius-md)*1px)] font-normal leading-[1.5] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-primary disabled:cursor-not-allowed disabled:border-border-disabled disabled:bg-bg-disabled disabled:text-text-disabled ${variantClasses[variant]} ${sizeClasses[size]} ${className ?? ""}`}
+      className={`inline-flex shrink-0 items-center justify-center gap-[var(--spacing-spacing-1)] rounded-[var(--radius-md)] font-normal leading-[1.5] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-primary disabled:cursor-not-allowed disabled:border-border-disabled disabled:bg-bg-disabled disabled:text-text-disabled ${variantClasses[variant]} ${sizeClasses[size]} ${className ?? ""}`}
       disabled={isDisabled}
       aria-busy={isLoading || undefined}
       {...props}

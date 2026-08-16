@@ -14,12 +14,12 @@ export function SearchResultItem({
   tags = ["태그1", "태그2"],
 }: SearchResultItemProps) {
   return (
-    <article className="flex w-full items-center bg-bg-default px-[calc(var(--spacing-spacing-4)*1px)] py-[calc(var(--spacing-spacing-3)*1px)]">
-      <div className="flex min-w-0 flex-1 flex-col items-start gap-[calc(var(--spacing-spacing-1-5)*1px)] overflow-hidden">
-        <h3 className="truncate text-[length:calc(var(--typography-font-size-body1)*1px)] font-semibold text-text-default">{name}</h3>
-        <p className="truncate text-[length:calc(var(--typography-font-size-label2)*1px)] text-text-subtle">{info}</p>
+    <article className="flex w-full items-center bg-bg-default px-[var(--spacing-spacing-4)] py-[var(--spacing-spacing-3)]">
+      <div className="flex min-w-0 flex-1 flex-col items-start gap-[var(--spacing-spacing-1-5)] overflow-hidden">
+        <h3 className="truncate text-[length:var(--typography-font-size-body1)] font-semibold text-text-default">{name}</h3>
+        <p className="truncate text-[length:var(--typography-font-size-label2)] text-text-subtle">{info}</p>
         {showTags ? (
-          <div className="flex gap-[calc(var(--spacing-spacing-1-5)*1px)] overflow-hidden">
+          <div className="flex gap-[var(--spacing-spacing-1-5)] overflow-hidden">
             {tags.map((tag) => <Tag key={tag}>{tag}</Tag>)}
           </div>
         ) : null}
