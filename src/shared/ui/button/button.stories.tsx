@@ -21,6 +21,10 @@ export const Primary: Story = {};
 export const Secondary: Story = { args: { variant: "secondary" } };
 export const Tertiary: Story = { args: { variant: "tertiary" } };
 export const Outline: Story = { args: { variant: "outline" } };
+export const Text: Story = { args: { children: "보내기", variant: "text" } };
+export const TextDisabled: Story = {
+  args: { children: "보내기", disabled: true, variant: "text" },
+};
 export const Loading: Story = { args: { isLoading: true } };
 export const Disabled: Story = { args: { disabled: true } };
 
