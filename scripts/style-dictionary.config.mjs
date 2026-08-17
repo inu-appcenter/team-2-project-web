@@ -30,6 +30,26 @@ function retype(tree, type) {
   return Object.fromEntries(Object.entries(tree).map(([k, v]) => [k, retype(v, type)]));
 }
 
+const FONT_WEIGHT_VALUES = {
+  Regular: 400,
+  Medium: 500,
+  Semibold: 600,
+  Bold: 700,
+};
+
+function normalizeFontWeightValues(tree) {
+  if (!tree || typeof tree !== 'object') return tree;
+  if ('$value' in tree) {
+    const numericValue = FONT_WEIGHT_VALUES[tree.$value];
+    return numericValue
+      ? { ...tree, $type: 'fontWeight', $value: numericValue }
+      : tree;
+  }
+  return Object.fromEntries(
+    Object.entries(tree).map(([key, value]) => [key, normalizeFontWeightValues(value)]),
+  );
+}
+
 function normalizeDimensionTypes(set) {
   if (!set) return set;
   const out = { ...set };
@@ -38,6 +58,15 @@ function normalizeDimensionTypes(set) {
   if (out['font-size']) out['font-size'] = retype(out['font-size'], 'fontSize');
   if (out.typography?.['font-size']) {
     out.typography = { ...out.typography, 'font-size': retype(out.typography['font-size'], 'fontSize') };
+  }
+  if (out['font-weight']) {
+    out['font-weight'] = normalizeFontWeightValues(out['font-weight']);
+  }
+  if (out.typography?.['font-weight']) {
+    out.typography = {
+      ...out.typography,
+      'font-weight': normalizeFontWeightValues(out.typography['font-weight']),
+    };
   }
   return out;
 }
