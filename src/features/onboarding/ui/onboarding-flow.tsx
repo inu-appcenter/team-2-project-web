@@ -1,7 +1,9 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 import { MOCK_LABS, SelectedLabCard } from "@/entities/lab";
 import { Field } from "@/shared/ui";
@@ -18,6 +20,7 @@ type Answers = Partial<
 >;
 
 type OnboardingFlowProps = {
+  completionHref?: string;
   renderLabSearch: (props: {
     onSelect: (labId: string) => void;
     selectedLabId?: string;
@@ -28,10 +31,15 @@ function formatAnswer(answer: AnswerValue | undefined) {
   return Array.isArray(answer) ? answer.join(", ") : answer;
 }
 
-export function OnboardingFlow({ renderLabSearch }: OnboardingFlowProps) {
+export function OnboardingFlow({
+  completionHref = "/",
+  renderLabSearch,
+}: OnboardingFlowProps) {
   const [answers, setAnswers] = useState<Answers>({});
   const [pendingAnswer, setPendingAnswer] = useState("");
   const [pendingSelections, setPendingSelections] = useState<string[]>([]);
+  const activeStepRef = useRef<HTMLElement>(null);
+  const isInitialRender = useRef(true);
 
   const completedQuestionCount = ONBOARDING_QUESTIONS.filter(
     (question) => {
@@ -42,6 +50,24 @@ export function OnboardingFlow({ renderLabSearch }: OnboardingFlowProps) {
   const currentQuestion = ONBOARDING_QUESTIONS[completedQuestionCount];
   const isComplete = currentQuestion === undefined;
   const currentStep = isComplete ? 8 : completedQuestionCount + 1;
+
+  useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+
+    const animationFrame = window.requestAnimationFrame(() => {
+      const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth";
+
+      activeStepRef.current?.scrollIntoView({ behavior, block: "start" });
+      activeStepRef.current?.focus({ preventScroll: true });
+    });
+
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, [completedQuestionCount]);
 
   function handleSubmit() {
     if (!currentQuestion) {
@@ -59,12 +85,6 @@ export function OnboardingFlow({ renderLabSearch }: OnboardingFlowProps) {
       ...currentAnswers,
       [currentQuestion.id]: nextAnswer,
     }));
-    setPendingAnswer("");
-    setPendingSelections([]);
-  }
-
-  function handleRestart() {
-    setAnswers({});
     setPendingAnswer("");
     setPendingSelections([]);
   }
@@ -96,28 +116,40 @@ export function OnboardingFlow({ renderLabSearch }: OnboardingFlowProps) {
         ))}
 
         {isComplete ? (
-          <div className="rounded-[var(--radius-xl)] bg-bg-neutral px-[var(--spacing-spacing-6)] py-[var(--spacing-spacing-4)] shadow-[0_2px_4px_var(--color-opacity-black-10)]">
-            <p className="text-[length:var(--font-size-heading2)] font-semibold leading-[1.5] text-text-default">
-              회원가입 축하드려요! 🥳
-            </p>
-            <p className="mt-[var(--spacing-spacing-3)] text-[length:var(--font-size-body3)] leading-[1.5] text-text-subtle">
-              이제 똑똑에서 자세한 연구실 정보를 확인해보세요!
-            </p>
-            <button
-              className="mt-[var(--spacing-spacing-3)] rounded-[var(--radius-md)] border border-border-primary bg-bg-default px-[var(--spacing-spacing-6)] py-[var(--spacing-spacing-3)] text-[length:var(--font-size-headline1)] font-semibold leading-[1.4] text-[color:var(--color-bg-primary-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-primary"
-              onClick={handleRestart}
-              type="button"
-            >
-              다시 시작하기
-            </button>
-          </div>
+          <section
+            aria-label="온보딩 완료"
+            className="flex flex-col gap-[var(--spacing-spacing-4)] focus:outline-none"
+            ref={(node) => {
+              activeStepRef.current = node;
+            }}
+            tabIndex={-1}
+          >
+            <ChatMessage sender="bot">회원가입 축하드려요! 🥳</ChatMessage>
+            <div className="w-fit max-w-full rounded-[var(--radius-xl)] bg-bg-neutral px-[var(--spacing-spacing-6)] py-[var(--spacing-spacing-4)]">
+              <p className="text-[length:var(--font-size-body3)] font-normal leading-[1.5] text-text-subtle">
+                이제 “똑똑”에서 자세한 연구실 정보를 확인해보세요!
+              </p>
+              <Link
+                className="mt-[var(--spacing-spacing-3)] inline-flex items-center justify-center gap-[var(--spacing-spacing-1-5)] rounded-[var(--radius-md)] border border-[color:var(--color-bg-primary-hover)] bg-bg-default px-[var(--spacing-spacing-6)] py-[var(--spacing-spacing-3)] text-[length:var(--font-size-headline1)] font-semibold leading-[1.4] text-[color:var(--color-bg-primary-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-primary"
+                href={completionHref}
+              >
+                시작하기
+                <Image alt="" height={18} src="/icons/arrow-right.svg" width={18} />
+              </Link>
+            </div>
+          </section>
         ) : (
           <form
-            className="flex flex-col gap-[var(--spacing-spacing-4)]"
+            aria-label={`${currentStep}단계 온보딩 질문`}
+            className="flex scroll-mt-[114px] flex-col gap-[var(--spacing-spacing-4)] focus:outline-none"
             onSubmit={(event) => {
               event.preventDefault();
               handleSubmit();
             }}
+            ref={(node) => {
+              activeStepRef.current = node;
+            }}
+            tabIndex={-1}
           >
             <ChatMessage sender="bot">{currentQuestion.question}</ChatMessage>
             {currentQuestion.helper ? (

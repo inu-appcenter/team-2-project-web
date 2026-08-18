@@ -1,3 +1,5 @@
+"use client";
+
 import { OnboardingFlow } from "@/features/onboarding";
 import { LabSearchCombobox } from "@/features/search-lab";
 
@@ -10,6 +12,7 @@ export function OnboardingChat() {
       <OnboardingFlow
         renderLabSearch={({ onSelect, selectedLabId }) => (
           <LabSearchCombobox
+            onClearSelection={() => onSelect("")}
             onSelect={(lab) => onSelect(lab.id)}
             selectedLabId={selectedLabId}
           />

@@ -8,7 +8,7 @@ type SelectedLabCardProps = {
 
 export function SelectedLabCard({ lab }: SelectedLabCardProps) {
   return (
-    <article className="ml-auto w-full max-w-[420px] rounded-[var(--radius-xl)] border-[1.5px] border-border-primary bg-bg-primary-subtle px-[var(--spacing-spacing-6)] py-[var(--spacing-spacing-5)]">
+    <article className="ml-auto w-full max-w-[300px] rounded-[var(--radius-xl)] border-[1.5px] border-border-primary bg-bg-primary-subtle px-[var(--spacing-spacing-6)] py-[var(--spacing-spacing-5)] md:max-w-[420px]">
       <h2 className="truncate text-[length:var(--font-size-headline1)] font-semibold leading-[1.4] text-text-default">
         {lab.name}
       </h2>

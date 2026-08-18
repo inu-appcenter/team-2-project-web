@@ -9,30 +9,38 @@ import type { LabSummary } from "@/entities/lab";
 import { useLabSearch } from "../model/use-lab-search";
 
 type LabSearchComboboxProps = {
+  errorMessage?: string;
+  isLoading?: boolean;
   labs?: LabSummary[];
+  onClearSelection?: () => void;
   onSelect: (lab: LabSummary) => void;
   selectedLabId?: string;
 };
 
 export function LabSearchCombobox({
+  errorMessage,
+  isLoading = false,
   labs = MOCK_LABS,
+  onClearSelection,
   onSelect,
   selectedLabId,
 }: LabSearchComboboxProps) {
   const { query, results, setQuery } = useLabSearch(labs);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
   const listboxId = useId();
-  const isOpen = query.trim().length > 0;
+  const shouldShowResults = isOpen && query.trim().length > 0;
   const activeResult = results[activeIndex];
   const activeOptionId = activeResult ? `${listboxId}-option-${activeResult.id}` : undefined;
 
   function selectLab(lab: LabSummary) {
     setQuery(lab.name);
+    setIsOpen(false);
     onSelect(lab);
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (!isOpen || results.length === 0) {
+    if (!shouldShowResults || results.length === 0) {
       return;
     }
 
@@ -54,32 +62,38 @@ export function LabSearchCombobox({
     }
 
     if (event.key === "Escape") {
-      setQuery("");
+      setIsOpen(false);
     }
   }
 
   return (
     <div className="ml-auto w-full max-w-[300px] md:max-w-[444px]">
       <div
-        className={`overflow-hidden bg-bg-default shadow-[0_4px_16px_var(--color-opacity-black-10)] ${isOpen ? "rounded-[var(--radius-xl)]" : "rounded-[var(--radius-xl)] shadow-none"}`}
+        className={`overflow-hidden rounded-[var(--radius-xl)] bg-bg-default ${shouldShowResults ? "shadow-[0_4px_16px_var(--color-opacity-black-10)]" : "shadow-none"}`}
       >
         <label className="sr-only" htmlFor={`${listboxId}-input`}>
           연구실 이름 또는 교수명 검색
         </label>
         <div
-          className={`flex h-12 items-center border border-border-primary bg-bg-default px-[20px] ${isOpen ? "rounded-t-[var(--radius-xl)]" : "rounded-[var(--radius-xl)]"}`}
+          className={`flex h-12 items-center border border-border-primary bg-bg-default px-[20px] ${shouldShowResults ? "rounded-t-[var(--radius-xl)]" : "rounded-[var(--radius-xl)]"}`}
         >
           <input
-            aria-activedescendant={activeOptionId}
+            aria-activedescendant={shouldShowResults ? activeOptionId : undefined}
             aria-autocomplete="list"
             aria-controls={listboxId}
-            aria-expanded={isOpen}
+            aria-expanded={shouldShowResults}
+            aria-invalid={Boolean(errorMessage)}
             autoComplete="off"
             className="min-w-0 flex-1 bg-transparent text-[length:var(--font-size-body2)] font-normal leading-[1.5] text-text-default outline-none placeholder:text-text-subtle"
             id={`${listboxId}-input`}
             onChange={(event) => {
               setQuery(event.target.value);
               setActiveIndex(0);
+              setIsOpen(true);
+              if (selectedLabId) onClearSelection?.();
+            }}
+            onFocus={() => {
+              if (query.trim()) setIsOpen(true);
             }}
             onKeyDown={handleKeyDown}
             placeholder="연구실 이름 또는 교수명"
@@ -89,13 +103,27 @@ export function LabSearchCombobox({
           <Image alt="" height={18} src="/icons/search.svg" width={18} />
         </div>
 
-        {isOpen ? (
+        {shouldShowResults ? (
           <ul
             className="max-h-[248px] overflow-y-auto bg-bg-default"
             id={listboxId}
             role="listbox"
           >
-            {results.length > 0 ? (
+            {isLoading ? (
+              <li
+                className="px-[var(--spacing-spacing-4)] py-[var(--spacing-spacing-6)] text-center text-[length:var(--font-size-body3)] text-text-subtle"
+                role="status"
+              >
+                연구실을 찾고 있어요
+              </li>
+            ) : errorMessage ? (
+              <li
+                className="px-[var(--spacing-spacing-4)] py-[var(--spacing-spacing-6)] text-center text-[length:var(--font-size-body3)] text-text-error"
+                role="alert"
+              >
+                {errorMessage}
+              </li>
+            ) : results.length > 0 ? (
               results.map((lab, index) => (
                 <LabSearchResultItem
                   active={index === activeIndex}
