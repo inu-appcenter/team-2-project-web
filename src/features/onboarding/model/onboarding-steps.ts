@@ -15,6 +15,11 @@ type OnboardingQuestion = {
   type: "choice" | "lab-search" | "multi-choice" | "text";
 };
 
+const ONBOARDING_PURPOSE = {
+  explore: "연구실을 알아보고 있어요",
+  member: "학부연구생 / 대학원생이에요",
+} as const;
+
 const ONBOARDING_QUESTIONS: OnboardingQuestion[] = [
   {
     id: "purpose",
@@ -22,10 +27,10 @@ const ONBOARDING_QUESTIONS: OnboardingQuestion[] = [
     helper: "선택하신 역할에 맞춰 가장 적합한 연구실 정보를 보여드릴게요",
     type: "choice",
     options: [
-      { label: "연구실을 알아보고 있어요", value: "연구실을 알아보고 있어요" },
+      { label: ONBOARDING_PURPOSE.explore, value: ONBOARDING_PURPOSE.explore },
       {
-        label: "학부연구생 / 대학원생이에요",
-        value: "학부연구생 / 대학원생이에요",
+        label: ONBOARDING_PURPOSE.member,
+        value: ONBOARDING_PURPOSE.member,
       },
     ],
   },
@@ -89,5 +94,11 @@ const ONBOARDING_QUESTIONS: OnboardingQuestion[] = [
   },
 ];
 
-export { ONBOARDING_QUESTIONS };
+function getOnboardingQuestions(purpose?: string) {
+  return purpose === ONBOARDING_PURPOSE.explore
+    ? ONBOARDING_QUESTIONS.slice(0, 1)
+    : ONBOARDING_QUESTIONS;
+}
+
+export { getOnboardingQuestions, ONBOARDING_PURPOSE, ONBOARDING_QUESTIONS };
 export type { OnboardingQuestion, OnboardingQuestionId };

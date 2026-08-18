@@ -8,7 +8,10 @@ import Link from "next/link";
 import { MOCK_LABS, SelectedLabCard } from "@/entities/lab";
 import { Field } from "@/shared/ui";
 
-import { ONBOARDING_QUESTIONS } from "../model/onboarding-steps";
+import {
+  getOnboardingQuestions,
+  ONBOARDING_QUESTIONS,
+} from "../model/onboarding-steps";
 import { ChatMessage } from "./chat-message";
 import { OnboardingProgress } from "./onboarding-progress";
 import { OnboardingSubmit } from "./onboarding-submit";
@@ -41,13 +44,17 @@ export function OnboardingFlow({
   const activeStepRef = useRef<HTMLElement>(null);
   const isInitialRender = useRef(true);
 
-  const completedQuestionCount = ONBOARDING_QUESTIONS.filter(
+  const purpose =
+    typeof answers.purpose === "string" ? answers.purpose : undefined;
+  const activeQuestions = getOnboardingQuestions(purpose);
+
+  const completedQuestionCount = activeQuestions.filter(
     (question) => {
       const answer = answers[question.id];
       return Array.isArray(answer) ? answer.length > 0 : Boolean(answer);
     },
   ).length;
-  const currentQuestion = ONBOARDING_QUESTIONS[completedQuestionCount];
+  const currentQuestion = activeQuestions[completedQuestionCount];
   const isComplete = currentQuestion === undefined;
   const currentStep = isComplete ? 8 : completedQuestionCount + 1;
 
@@ -93,7 +100,7 @@ export function OnboardingFlow({
     <>
       <OnboardingProgress currentStep={currentStep} />
       <section className="mx-auto flex w-full max-w-[680px] flex-col gap-[var(--spacing-spacing-4)] px-[var(--spacing-spacing-4)] pb-[var(--spacing-spacing-10)] pt-[var(--spacing-spacing-10)] md:px-0">
-        {ONBOARDING_QUESTIONS.slice(0, completedQuestionCount).map((question) => (
+        {activeQuestions.slice(0, completedQuestionCount).map((question) => (
           <div className="contents" key={question.id}>
             <ChatMessage sender="bot">{question.question}</ChatMessage>
             {question.helper ? (
