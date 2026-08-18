@@ -1,5 +1,5 @@
 import { OnboardingView } from "@/views/onboarding";
 
-export default function Home() {
+export default function OnboardingPage() {
   return <OnboardingView />;
 }
