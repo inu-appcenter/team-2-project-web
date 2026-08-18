@@ -1,44 +1,72 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useState } from "react";
 
-import { SelectedLabCard } from "@/entities/lab";
+import { MOCK_LABS, SelectedLabCard } from "@/entities/lab";
 import { Field } from "@/shared/ui";
 
-import { DEFAULT_LAB, ONBOARDING_QUESTIONS } from "../model/onboarding-steps";
+import { ONBOARDING_QUESTIONS } from "../model/onboarding-steps";
 import { ChatMessage } from "./chat-message";
 import { OnboardingProgress } from "./onboarding-progress";
 import { OnboardingSubmit } from "./onboarding-submit";
-import { QuickReplies } from "./quick-replies";
+import { MultiQuickReplies, QuickReplies } from "./quick-replies";
 
-type Answers = Partial<Record<(typeof ONBOARDING_QUESTIONS)[number]["id"], string>>;
+type AnswerValue = string | string[];
+type Answers = Partial<
+  Record<(typeof ONBOARDING_QUESTIONS)[number]["id"], AnswerValue>
+>;
 
-export function OnboardingFlow() {
+type OnboardingFlowProps = {
+  renderLabSearch: (props: {
+    onSelect: (labId: string) => void;
+    selectedLabId?: string;
+  }) => ReactNode;
+};
+
+function formatAnswer(answer: AnswerValue | undefined) {
+  return Array.isArray(answer) ? answer.join(", ") : answer;
+}
+
+export function OnboardingFlow({ renderLabSearch }: OnboardingFlowProps) {
   const [answers, setAnswers] = useState<Answers>({});
   const [pendingAnswer, setPendingAnswer] = useState("");
+  const [pendingSelections, setPendingSelections] = useState<string[]>([]);
 
   const completedQuestionCount = ONBOARDING_QUESTIONS.filter(
-    (question) => answers[question.id],
+    (question) => {
+      const answer = answers[question.id];
+      return Array.isArray(answer) ? answer.length > 0 : Boolean(answer);
+    },
   ).length;
   const currentQuestion = ONBOARDING_QUESTIONS[completedQuestionCount];
   const isComplete = currentQuestion === undefined;
   const currentStep = isComplete ? 8 : completedQuestionCount + 1;
 
   function handleSubmit() {
-    if (!currentQuestion || !pendingAnswer.trim()) {
+    if (!currentQuestion) {
       return;
     }
 
+    const nextAnswer =
+      currentQuestion.type === "multi-choice"
+        ? pendingSelections
+        : pendingAnswer.trim();
+
+    if (nextAnswer.length === 0) return;
+
     setAnswers((currentAnswers) => ({
       ...currentAnswers,
-      [currentQuestion.id]: pendingAnswer.trim(),
+      [currentQuestion.id]: nextAnswer,
     }));
     setPendingAnswer("");
+    setPendingSelections([]);
   }
 
   function handleRestart() {
     setAnswers({});
     setPendingAnswer("");
+    setPendingSelections([]);
   }
 
   return (
@@ -53,10 +81,16 @@ export function OnboardingFlow() {
                 {question.helper}
               </ChatMessage>
             ) : null}
-            {question.id === "lab" && answers.lab === DEFAULT_LAB.id ? (
-              <SelectedLabCard lab={DEFAULT_LAB} />
+            {question.id === "lab" ? (
+              <SelectedLabCard
+                lab={
+                  MOCK_LABS.find((lab) => lab.id === answers.lab) ?? MOCK_LABS[0]
+                }
+              />
             ) : (
-              <ChatMessage sender="user">{answers[question.id]}</ChatMessage>
+              <ChatMessage sender="user">
+                {formatAnswer(answers[question.id])}
+              </ChatMessage>
             )}
           </div>
         ))}
@@ -98,6 +132,19 @@ export function OnboardingFlow() {
                 options={currentQuestion.options ?? []}
                 value={pendingAnswer}
               />
+            ) : currentQuestion.type === "multi-choice" ? (
+              <MultiQuickReplies
+                maxSelections={3}
+                name={currentQuestion.id}
+                onValueChange={setPendingSelections}
+                options={currentQuestion.options ?? []}
+                values={pendingSelections}
+              />
+            ) : currentQuestion.type === "lab-search" ? (
+              renderLabSearch({
+                onSelect: setPendingAnswer,
+                selectedLabId: pendingAnswer,
+              })
             ) : (
               <div className="ml-auto w-full max-w-[444px]">
                 <Field
@@ -110,7 +157,13 @@ export function OnboardingFlow() {
               </div>
             )}
             <div className="flex justify-end">
-              <OnboardingSubmit disabled={!pendingAnswer.trim()} />
+              <OnboardingSubmit
+                disabled={
+                  currentQuestion.type === "multi-choice"
+                    ? pendingSelections.length === 0
+                    : !pendingAnswer.trim()
+                }
+              />
             </div>
           </form>
         )}
@@ -118,3 +171,5 @@ export function OnboardingFlow() {
     </>
   );
 }
+
+export type { OnboardingFlowProps };

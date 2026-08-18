@@ -1,5 +1,3 @@
-import type { LabSummary } from "@/entities/lab";
-
 type OnboardingQuestionId =
   | "purpose"
   | "lab"
@@ -14,15 +12,7 @@ type OnboardingQuestion = {
   id: OnboardingQuestionId;
   options?: Array<{ label: string; value: string }>;
   question: string;
-  type: "choice" | "text";
-};
-
-const DEFAULT_LAB: LabSummary = {
-  id: "intelligent-data-systems",
-  name: "지능형 데이터 시스템 연구실",
-  professorName: "김OO",
-  department: "컴퓨터공학부",
-  tags: ["데이터베이스", "빅데이터"],
+  type: "choice" | "lab-search" | "multi-choice" | "text";
 };
 
 const ONBOARDING_QUESTIONS: OnboardingQuestion[] = [
@@ -43,8 +33,7 @@ const ONBOARDING_QUESTIONS: OnboardingQuestion[] = [
     id: "lab",
     question: "좋아요! 소속된 연구실이 어디신가요?",
     helper: "연구실 이름이나 교수님 성함을 입력하면 찾을 수 있어요",
-    type: "choice",
-    options: [{ label: DEFAULT_LAB.name, value: DEFAULT_LAB.id }],
+    type: "lab-search",
   },
   {
     id: "coreTime",
@@ -68,14 +57,18 @@ const ONBOARDING_QUESTIONS: OnboardingQuestion[] = [
   {
     id: "activities",
     question: "마지막으로, 주로 하는 일을 알려주세요!",
-    helper: "여러 개 선택할 수 있어요",
-    type: "choice",
+    helper: "최대 3개 선택할 수 있어요",
+    type: "multi-choice",
     options: [
-      {
-        label: "논문 리딩, 코딩/프로그래밍, 학회 발표",
-        value: "논문 리딩, 코딩/프로그래밍, 학회 발표",
-      },
-      { label: "실험 및 데이터 분석", value: "실험 및 데이터 분석" },
+      { label: "논문 리딩", value: "논문 리딩" },
+      { label: "실험 준비", value: "실험 준비" },
+      { label: "코딩/프로그래밍", value: "코딩/프로그래밍" },
+      { label: "데이터 라벨링", value: "데이터 라벨링" },
+      { label: "학회 발표", value: "학회 발표" },
+      { label: "실험 데이터 정리", value: "실험 데이터 정리" },
+      { label: "행정 업무", value: "행정 업무" },
+      { label: "과제 참여", value: "과제 참여" },
+      { label: "기타", value: "기타" },
     ],
   },
   {
@@ -96,5 +89,5 @@ const ONBOARDING_QUESTIONS: OnboardingQuestion[] = [
   },
 ];
 
-export { DEFAULT_LAB, ONBOARDING_QUESTIONS };
+export { ONBOARDING_QUESTIONS };
 export type { OnboardingQuestion, OnboardingQuestionId };

@@ -63,30 +63,45 @@ export function Radio({
   );
 }
 
+export type CheckboxProps = SelectionProps & {
+  appearance?: "default" | "chip";
+};
+
 export function Checkbox({
+  appearance = "default",
   children,
   className,
   disabled,
   ...props
-}: SelectionProps) {
+}: CheckboxProps) {
+  const isChip = appearance === "chip";
+
   return (
-    <label className="inline-flex min-h-6 cursor-pointer items-center gap-[var(--spacing-spacing-1)] text-text-default has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50">
+    <label
+      className={`group inline-flex cursor-pointer items-center text-text-default has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50 ${
+        isChip
+          ? "min-h-[32px] rounded-[var(--radius-full)] border border-text-subtle bg-bg-default px-[14px] py-[var(--spacing-spacing-1)] has-[:checked]:border-bg-primary has-[:checked]:bg-bg-primary has-[:checked]:text-text-inverse"
+          : "min-h-6 gap-[var(--spacing-spacing-1)]"
+      }`}
+    >
       <input
         className="peer sr-only"
         disabled={disabled}
         type="checkbox"
         {...props}
       />
-      <span className="relative size-6 shrink-0 overflow-hidden rounded-[var(--radius-md)] border border-icon-subtlest bg-bg-default peer-checked:border-bg-primary peer-checked:bg-bg-primary peer-checked:[&_.check-icon]:block peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-border-primary">
-        <Image
-          alt=""
-          className="check-icon hidden p-[3px]"
-          fill
-          src="/icons/check.svg"
-        />
-      </span>
+      {isChip ? null : (
+        <span className="relative size-6 shrink-0 overflow-hidden rounded-[var(--radius-md)] border border-icon-subtlest bg-bg-default peer-checked:border-bg-primary peer-checked:bg-bg-primary peer-checked:[&_.check-icon]:block peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-border-primary">
+          <Image
+            alt=""
+            className="check-icon hidden p-[3px]"
+            fill
+            src="/icons/check.svg"
+          />
+        </span>
+      )}
       <span
-        className={`text-[length:var(--font-size-body2)] font-normal leading-[1.5] ${className ?? ""}`}
+        className={`text-[length:var(--font-size-body2)] font-normal leading-[1.5] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-border-primary ${className ?? ""}`}
       >
         {children}
       </span>

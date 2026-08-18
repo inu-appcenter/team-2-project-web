@@ -2,7 +2,7 @@
 
 import { useId } from "react";
 
-import { Radio } from "@/shared/ui";
+import { Checkbox, Radio } from "@/shared/ui";
 
 type QuickReplyOption = {
   label: string;
@@ -14,6 +14,14 @@ type QuickRepliesProps = {
   onValueChange?: (value: string) => void;
   options: QuickReplyOption[];
   value?: string;
+};
+
+type MultiQuickRepliesProps = {
+  maxSelections?: number;
+  name?: string;
+  onValueChange?: (values: string[]) => void;
+  options: QuickReplyOption[];
+  values?: string[];
 };
 
 export function QuickReplies({
@@ -44,4 +52,50 @@ export function QuickReplies({
   );
 }
 
-export type { QuickReplyOption, QuickRepliesProps };
+export function MultiQuickReplies({
+  maxSelections = 3,
+  name,
+  onValueChange,
+  options,
+  values = [],
+}: MultiQuickRepliesProps) {
+  const generatedName = useId();
+  const groupName = name ?? generatedName;
+
+  function toggleValue(value: string) {
+    if (values.includes(value)) {
+      onValueChange?.(values.filter((selectedValue) => selectedValue !== value));
+      return;
+    }
+
+    if (values.length < maxSelections) {
+      onValueChange?.([...values, value]);
+    }
+  }
+
+  return (
+    <fieldset className="flex flex-wrap justify-end gap-2">
+      <legend className="sr-only">최대 {maxSelections}개 선택</legend>
+      {options.map((option) => {
+        const isChecked = values.includes(option.value);
+        const isDisabled = !isChecked && values.length >= maxSelections;
+
+        return (
+          <Checkbox
+            appearance="chip"
+            checked={isChecked}
+            disabled={isDisabled}
+            key={option.value}
+            name={groupName}
+            onChange={() => toggleValue(option.value)}
+            value={option.value}
+          >
+            {option.label}
+          </Checkbox>
+        );
+      })}
+    </fieldset>
+  );
+}
+
+export type { MultiQuickRepliesProps, QuickReplyOption, QuickRepliesProps };
