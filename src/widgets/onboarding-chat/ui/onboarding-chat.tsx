@@ -7,7 +7,7 @@ import { OnboardingHeader } from "./onboarding-header";
 
 export function OnboardingChat() {
   return (
-    <main className="min-h-screen bg-bg-default">
+    <main className="flex min-h-screen flex-col bg-bg-default max-md:h-dvh max-md:min-h-0 max-md:overflow-hidden">
       <OnboardingHeader />
       <OnboardingFlow
         renderLabSearch={({ onSelect, selectedLabId }) => (

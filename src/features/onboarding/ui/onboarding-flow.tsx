@@ -99,7 +99,7 @@ export function OnboardingFlow({
   return (
     <>
       <OnboardingProgress currentStep={currentStep} />
-      <section className="mx-auto flex w-full max-w-[680px] flex-col gap-[var(--spacing-spacing-4)] px-[var(--spacing-spacing-4)] pb-[var(--spacing-spacing-10)] pt-[var(--spacing-spacing-10)] md:px-0">
+      <section className="mx-auto flex w-full max-w-[680px] flex-col gap-[var(--spacing-spacing-4)] overflow-y-auto overscroll-y-contain px-[var(--spacing-spacing-4)] pb-[max(var(--spacing-spacing-10),env(safe-area-inset-bottom))] pt-[var(--spacing-spacing-10)] max-md:min-h-0 max-md:flex-1 md:overflow-visible md:px-0">
         {activeQuestions.slice(0, completedQuestionCount).map((question) => (
           <div className="contents" key={question.id}>
             <ChatMessage sender="bot">{question.question}</ChatMessage>
@@ -148,7 +148,7 @@ export function OnboardingFlow({
         ) : (
           <form
             aria-label={`${currentStep}단계 온보딩 질문`}
-            className="flex scroll-mt-[114px] flex-col gap-[var(--spacing-spacing-4)] focus:outline-none"
+            className="flex scroll-mt-[var(--spacing-spacing-4)] flex-col gap-[var(--spacing-spacing-4)] focus:outline-none md:scroll-mt-[114px]"
             onSubmit={(event) => {
               event.preventDefault();
               handleSubmit();
