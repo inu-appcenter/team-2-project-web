@@ -10,10 +10,10 @@ export type LogoProps = {
 };
 
 const logoAssets: Record<LogoVariant, { height: number; src: string; width: number }> = {
-  horizontal: { height: 62, src: "/logos/ttok-horizontal.png", width: 120 },
-  stacked: { height: 120, src: "/logos/ttok-stacked.png", width: 78 },
-  vertical: { height: 112, src: "/logos/ttok-vertical.png", width: 140 },
-  wordmark: { height: 41, src: "/logos/ttok-wordmark.png", width: 74 },
+  horizontal: { height: 62, src: "/logos/ttok-horizontal.svg", width: 120 },
+  stacked: { height: 120, src: "/logos/ttok-stacked.svg", width: 78 },
+  vertical: { height: 112, src: "/logos/ttok-vertical.svg", width: 140 },
+  wordmark: { height: 41, src: "/logos/ttok-wordmark.svg", width: 74 },
 };
 
 export function Logo({
