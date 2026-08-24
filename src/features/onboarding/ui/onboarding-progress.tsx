@@ -17,7 +17,7 @@ export function OnboardingProgress({
       aria-valuemax={safeTotalSteps}
       aria-valuemin={1}
       aria-valuenow={safeCurrentStep}
-      className="h-2 w-full overflow-hidden bg-bg-neutral"
+      className="h-2 w-full shrink-0 overflow-hidden bg-bg-neutral"
       role="progressbar"
     >
       <div
