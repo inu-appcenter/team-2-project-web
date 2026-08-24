@@ -11,8 +11,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Neutral: Story = {};
+export const Default: Story = {};
+export const Subtle: Story = { args: { tone: "subtle" } };
+export const Secondary: Story = { args: { tone: "secondary" } };
 export const Primary: Story = { args: { tone: "primary" } };
+export const Neutral: Story = { args: { tone: "neutral" } };
 export const RecruitmentStatuses: Story = {
   render: () => (
     <div className="flex gap-2">
