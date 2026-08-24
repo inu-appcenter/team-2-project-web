@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { useId, useState } from "react";
 
 import { LabSearchResultItem, MOCK_LABS } from "@/entities/lab";
 import type { LabSummary } from "@/entities/lab";
+import { SearchField } from "@/shared/ui";
 
 import { useLabSearch } from "../model/use-lab-search";
 
@@ -68,40 +68,37 @@ export function LabSearchCombobox({
 
   return (
     <div className="ml-auto w-full max-w-[300px] md:max-w-[444px]">
-      <div
-        className={`overflow-hidden rounded-[var(--radius-xl)] bg-bg-default ${shouldShowResults ? "shadow-[0_4px_16px_var(--color-opacity-black-10)]" : "shadow-none"}`}
-      >
+      <div className="overflow-hidden rounded-[var(--radius-2xl)] bg-bg-default shadow-[0_4px_16px_var(--color-opacity-black-10)]">
         <label className="sr-only" htmlFor={`${listboxId}-input`}>
           연구실 이름 또는 교수명 검색
         </label>
-        <div
-          className={`flex h-12 items-center border border-border-primary bg-bg-default px-[20px] ${shouldShowResults ? "rounded-t-[var(--radius-xl)]" : "rounded-[var(--radius-xl)]"}`}
-        >
-          <input
-            aria-activedescendant={shouldShowResults ? activeOptionId : undefined}
-            aria-autocomplete="list"
-            aria-controls={listboxId}
-            aria-expanded={shouldShowResults}
-            aria-invalid={Boolean(errorMessage)}
-            autoComplete="off"
-            className="min-w-0 flex-1 bg-transparent text-[length:var(--font-size-body2)] font-normal leading-[1.5] text-text-default outline-none placeholder:text-text-subtle"
-            id={`${listboxId}-input`}
-            onChange={(event) => {
-              setQuery(event.target.value);
-              setActiveIndex(0);
-              setIsOpen(true);
-              if (selectedLabId) onClearSelection?.();
-            }}
-            onFocus={() => {
-              if (query.trim()) setIsOpen(true);
-            }}
-            onKeyDown={handleKeyDown}
-            placeholder="연구실 이름 또는 교수명"
-            role="combobox"
-            value={query}
-          />
-          <Image alt="" height={18} src="/icons/search.svg" width={18} />
-        </div>
+        <SearchField
+          aria-activedescendant={shouldShowResults ? activeOptionId : undefined}
+          aria-autocomplete="list"
+          aria-controls={listboxId}
+          aria-expanded={shouldShowResults}
+          aria-invalid={Boolean(errorMessage)}
+          autoComplete="off"
+          elevated={false}
+          id={`${listboxId}-input`}
+          onChange={(event) => {
+            setQuery(event.target.value);
+            setActiveIndex(0);
+            setIsOpen(true);
+            if (selectedLabId) onClearSelection?.();
+          }}
+          onFocus={() => {
+            if (query.trim()) setIsOpen(true);
+          }}
+          onKeyDown={handleKeyDown}
+          onSearch={() => {
+            if (query.trim()) setIsOpen(true);
+          }}
+          placeholder="연구실 이름 또는 교수명"
+          role="combobox"
+          rounded={shouldShowResults ? "top" : "all"}
+          value={query}
+        />
 
         {shouldShowResults ? (
           <ul
