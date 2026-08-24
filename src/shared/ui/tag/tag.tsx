@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from "react";
 
-type TagTone = "neutral" | "primary" | "success" | "warning" | "error";
+type TagTone = "default" | "neutral" | "primary" | "secondary" | "subtle" | "success" | "warning" | "error";
 
 export type TagProps = HTMLAttributes<HTMLSpanElement> & {
   children: ReactNode;
@@ -8,17 +8,20 @@ export type TagProps = HTMLAttributes<HTMLSpanElement> & {
 };
 
 const toneClasses: Record<TagTone, string> = {
-  neutral: "bg-bg-neutral text-text-subtle",
-  primary: "bg-bg-primary text-text-inverse",
-  success: "bg-bg-success text-text-success",
-  warning: "bg-bg-warning text-text-warning",
-  error: "bg-bg-error text-text-error",
+  default: "bg-text-default text-text-inverse text-[length:var(--font-size-label1)] font-semibold",
+  subtle: "bg-text-subtlest text-text-inverse text-[length:var(--font-size-label1)] font-semibold",
+  secondary: "bg-[var(--color-secondary-secondary-500)] text-text-inverse text-[length:var(--font-size-label1)] font-semibold",
+  primary: "bg-bg-primary text-text-inverse text-[length:var(--font-size-label2)] font-normal",
+  neutral: "bg-bg-neutral text-text-subtle text-[length:var(--font-size-label2)] font-semibold",
+  success: "bg-bg-success text-text-success text-[length:var(--font-size-label2)] font-semibold",
+  warning: "bg-bg-warning text-text-warning text-[length:var(--font-size-label2)] font-semibold",
+  error: "bg-bg-error text-text-error text-[length:var(--font-size-label2)] font-semibold",
 };
 
-export function Tag({ children, className, tone = "neutral", ...props }: TagProps) {
+export function Tag({ children, className, tone = "default", ...props }: TagProps) {
   return (
     <span
-      className={`inline-flex items-center rounded-full px-[var(--spacing-spacing-2-5)] py-[var(--spacing-spacing-0-5)] text-[length:var(--typography-font-size-label2)] font-semibold leading-normal ${toneClasses[tone]} ${className ?? ""}`}
+      className={`inline-flex items-center rounded-full px-[var(--spacing-spacing-2-5)] py-[var(--spacing-spacing-0-5)] leading-[1.5] ${toneClasses[tone]} ${className ?? ""}`}
       {...props}
     >
       {children}

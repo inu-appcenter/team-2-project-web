@@ -60,7 +60,7 @@ export function Button({
 
   return (
     <button
-      className={`inline-flex shrink-0 items-center justify-center gap-[var(--spacing-spacing-1)] rounded-[var(--radius-md)] font-normal leading-[1.5] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-primary ${variantClasses[variant]} ${disabledClasses[variant]} ${variant === "text" ? "" : sizeClasses[size]} ${className ?? ""}`}
+      className={`inline-flex shrink-0 items-center justify-center gap-[var(--spacing-spacing-1)] rounded-[var(--radius-xl)] font-normal leading-[1.5] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-primary ${variantClasses[variant]} ${disabledClasses[variant]} ${variant === "text" ? "" : sizeClasses[size]} ${className ?? ""}`}
       disabled={isDisabled}
       aria-busy={isLoading || undefined}
       {...props}

@@ -17,6 +17,7 @@ export const CheckboxStates: Story = {
     <div className="flex flex-col gap-5">
       <Checkbox name="department" value="computer">체크박스</Checkbox>
       <Checkbox defaultChecked name="department" value="information">체크박스</Checkbox>
+      <Checkbox size="sm" name="department" value="small">작은 체크박스</Checkbox>
       <Checkbox disabled name="department" value="disabled">비활성화</Checkbox>
     </div>
   ),
@@ -26,6 +27,7 @@ export const RadioCardStates: Story = {
   render: () => (
     <div className="flex flex-col gap-3">
       <Radio defaultChecked name="status" value="all">Radio Button</Radio>
+      <Radio description="Supporting Text" name="status" value="support">Radio Button</Radio>
       <Radio name="status" value="open">Radio Button</Radio>
       <Radio disabled name="status" value="disabled">비활성화</Radio>
     </div>
