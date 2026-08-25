@@ -31,7 +31,7 @@ export function BottomSheet({
         {showCloseButton ? (
           <button
             aria-label="닫기"
-            className="flex size-[18px] shrink-0 items-center justify-center rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-primary"
+            className="flex size-[18px] shrink-0 cursor-pointer items-center justify-center rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-primary"
             onClick={onClose}
             type="button"
           >
