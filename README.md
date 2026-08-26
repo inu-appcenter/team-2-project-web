@@ -123,16 +123,18 @@ CHROMATIC_PROJECT_TOKEN
 ## 프로젝트 구조
 
 ```text
+app/           # Next.js App Router 진입점(라우트 파일만 유지)
+pages/         # Pages Router 미사용 표시용 빈 디렉터리
 src/
-├── app/       # Next.js 라우팅, 레이아웃, 전역 설정
-├── views/     # 라우트에 대응하는 화면 구성
+├── _app/      # FSD 앱 초기화, 전역 스타일과 설정
+├── _pages/    # 라우트에 대응하는 화면 구성
 ├── widgets/   # 여러 기능을 조합한 독립적인 UI 블록
 ├── features/  # 사용자의 행동과 비즈니스 기능
 ├── entities/  # 핵심 비즈니스 개체
 └── shared/    # 공통 UI, API 클라이언트, 유틸리티
 ```
 
-Next.js의 `app` 디렉터리와 FSD 페이지 레이어의 이름이 충돌하지 않도록 페이지 레이어는 `views`로 사용합니다. 디렉터리는 해당 레이어가 실제로 필요해질 때 추가합니다.
+루트 `app`은 Next.js App Router의 파일 규칙만 담당하고 실제 화면은 `src/_pages`의 공개 API에서 가져옵니다. FSD의 `app`, `pages` 레이어는 Next.js 예약 디렉터리와 구분하기 위해 각각 `_app`, `_pages`로 표기합니다. 루트 `pages`는 `.gitkeep`만 두며 Pages Router 코드는 작성하지 않습니다.
 
 ## 개발 문서
 

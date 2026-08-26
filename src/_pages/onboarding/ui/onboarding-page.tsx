@@ -1,5 +1,5 @@
 import { OnboardingChat } from "@/widgets/onboarding-chat";
 
-export function OnboardingView() {
+export function OnboardingPage() {
   return <OnboardingChat />;
 }
