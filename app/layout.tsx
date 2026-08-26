@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import "./globals.css";
+
+import "@/_app/styles/globals.css";
 
 export const metadata: Metadata = {
   title: "똑똑",
@@ -12,10 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ko"
-      className="h-full antialiased"
-    >
+    <html lang="ko" className="h-full antialiased">
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
