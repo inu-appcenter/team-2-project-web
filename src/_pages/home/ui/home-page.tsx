@@ -3,7 +3,9 @@ import Link from "next/link";
 
 import { LabCard } from "@/entities/lab";
 import type { LabSummary } from "@/entities/lab";
+import { MobileLabExplorer } from "@/features/search-lab";
 import { SearchField } from "@/shared/ui";
+import { MobileBottomNav } from "@/widgets/mobile-bottom-nav";
 import { SiteFooter } from "@/widgets/site-footer";
 import { SiteHeader } from "@/widgets/site-header";
 
@@ -15,9 +17,47 @@ export type HomePageProps = {
 
 export function HomePage({ labs }: HomePageProps) {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-bg-default text-text-default">
+    <div className="min-h-screen overflow-x-hidden bg-bg-default pb-[calc(72px+env(safe-area-inset-bottom))] text-text-default md:pb-0">
       <SiteHeader activeItem="home" />
       <main>
+        <div className="px-4 pb-11 pt-[27px] md:hidden">
+          <section className="relative flex h-[156px] flex-col justify-center overflow-hidden rounded-[var(--radius-xl)] bg-[linear-gradient(90deg,#749fda_1.38%,#abc2e2_54.82%,#cba5d1_145.41%)] px-4 pb-4 pt-8">
+            <div className="flex items-center">
+              <div className="relative z-10 flex min-w-0 flex-col gap-[14px] pt-1">
+                <h1 className="text-[length:var(--font-size-headline1)] font-semibold leading-[1.4] tracking-[-0.01em] text-text-inverse">
+                  나에게 딱 맞는 연구실,
+                  <br />
+                  AI가 찾아드려요
+                </h1>
+                <p className="whitespace-nowrap text-[length:var(--font-size-caption1)] leading-[1.5] text-[rgba(255,255,255,0.85)]">
+                  관심 분야와 조건만 알려주면, 꼭 맞는 연구실을 추천해드려요
+                </p>
+              </div>
+              <Image
+                alt=""
+                aria-hidden="true"
+                className="absolute right-[-12px] top-[39px] size-[71px]"
+                height={71}
+                src="/icons/home/mobile/hero-decoration.svg"
+                width={71}
+              />
+            </div>
+            <Image
+              alt=""
+              aria-hidden="true"
+              className="absolute bottom-5 left-1/2 h-1.5 w-12 -translate-x-1/2"
+              height={6}
+              src="/icons/home/mobile/hero-pagination.svg"
+              width={48}
+            />
+          </section>
+
+          <div className="mt-5">
+            <MobileLabExplorer labs={labs} />
+          </div>
+        </div>
+
+        <div className="hidden md:block">
         <section className="relative h-[360px] overflow-hidden bg-[linear-gradient(90deg,#a7c0db_0%,#b4bade_33%,#c2aed6_66%,#d699c5_100%)]">
           <div className="mx-auto flex h-full w-full max-w-[1440px] items-start justify-between px-6 pt-12 md:px-[clamp(24px,8.89vw,128px)]">
             <div className="flex min-w-0 max-w-full flex-col items-start gap-5 pt-1">
@@ -122,7 +162,9 @@ export function HomePage({ labs }: HomePageProps) {
             )}
           </div>
         </section>
+        </div>
       </main>
+      <MobileBottomNav />
       <SiteFooter />
     </div>
   );
