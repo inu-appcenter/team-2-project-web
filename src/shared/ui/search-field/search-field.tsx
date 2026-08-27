@@ -4,7 +4,7 @@ import Image from "next/image";
 import type { InputHTMLAttributes, KeyboardEvent } from "react";
 import { forwardRef } from "react";
 
-type SearchFieldSize = "default" | "sm";
+type SearchFieldSize = "default" | "lg" | "sm";
 type SearchFieldRounded = "all" | "top";
 
 export type SearchFieldProps = Omit<InputHTMLAttributes<HTMLInputElement>, "size"> & {
@@ -16,6 +16,7 @@ export type SearchFieldProps = Omit<InputHTMLAttributes<HTMLInputElement>, "size
 
 const sizeClasses: Record<SearchFieldSize, string> = {
   default: "h-12 px-[var(--spacing-spacing-5)] text-[length:var(--font-size-body2)]",
+  lg: "h-[52px] pl-[var(--spacing-spacing-3)] pr-[var(--spacing-spacing-4)] text-[length:var(--font-size-headline1)]",
   sm: "h-9 px-[var(--spacing-spacing-4)] text-[length:var(--font-size-label2)]",
 };
 
@@ -23,6 +24,10 @@ const roundedClasses: Record<SearchFieldSize, Record<SearchFieldRounded, string>
   default: {
     all: "rounded-[var(--radius-2xl)]",
     top: "rounded-t-[var(--radius-2xl)]",
+  },
+  lg: {
+    all: "rounded-[var(--radius-xl)]",
+    top: "rounded-t-[var(--radius-xl)]",
   },
   sm: {
     all: "rounded-[var(--radius-xl)]",
@@ -75,9 +80,9 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(
         >
           <Image
             alt=""
-            height={size === "sm" ? 16 : 18}
+            height={size === "default" ? 18 : 16}
             src="/icons/search.svg"
-            width={size === "sm" ? 16 : 18}
+            width={size === "default" ? 18 : 16}
           />
         </button>
       </div>
