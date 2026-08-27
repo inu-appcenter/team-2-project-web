@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import type { HTMLAttributes, ReactNode } from "react";
 
 export type BottomSheetProps = Omit<HTMLAttributes<HTMLElement>, "title"> & {
@@ -35,9 +36,7 @@ export function BottomSheet({
             onClick={onClose}
             type="button"
           >
-            <svg aria-hidden="true" className="size-[18px]" fill="none" viewBox="0 0 18 18">
-              <path d="m13.5 4.5-9 9m0-9 9 9" stroke="#737373" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            <Image alt="" height={18} src="/icons/home/mobile/close.svg" width={18} />
           </button>
         ) : null}
       </header>

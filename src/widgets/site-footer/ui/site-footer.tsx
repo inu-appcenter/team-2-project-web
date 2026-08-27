@@ -4,7 +4,7 @@ import { Logo } from "@/shared/ui";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-bg-subtle">
+    <footer className="hidden bg-bg-subtle md:block">
       <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-4 px-6 pb-8 pt-14 md:px-[clamp(24px,8.89vw,128px)]">
         <div className="flex flex-col justify-between gap-10 sm:flex-row">
           <div className="flex flex-col gap-2">
