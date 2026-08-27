@@ -11,7 +11,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Home: Story = {};
+export const Default: Story = {};
+export const Home: Story = { args: { activeItem: "home" } };
 export const Search: Story = { args: { activeItem: "search" } };
 export const AiRecommendation: Story = { args: { activeItem: "ai" } };
 export const Authenticated: Story = { args: { isAuthenticated: true } };
