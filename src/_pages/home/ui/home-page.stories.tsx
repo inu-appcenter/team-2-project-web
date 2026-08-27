@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
+import { MOCK_LABS } from "@/entities/lab";
+
 import { HomePage } from "./home-page";
 
 const meta = {
@@ -14,4 +16,8 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    labs: MOCK_LABS,
+  },
+};
