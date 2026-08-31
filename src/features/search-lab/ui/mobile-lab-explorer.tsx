@@ -2,16 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { LabCard } from "@/entities/lab";
 import type { LabSummary } from "@/entities/lab";
 import { BottomSheet, Button, Checkbox, SearchField } from "@/shared/ui";
 
-import { LabSearchCombobox } from "./lab-search-combobox";
-
-type SheetType = "department" | "field" | "search" | null;
+type SheetType = "department" | "field" | null;
 
 const researchFields = [
   "데이터베이스",
@@ -76,7 +73,6 @@ function FilterButton({ label, onClick }: { label: string; onClick: () => void }
 }
 
 export function MobileLabExplorer({ labs }: MobileLabExplorerProps) {
-  const router = useRouter();
   const [activeSheet, setActiveSheet] = useState<SheetType>(null);
   const [activeCollege, setActiveCollege] = useState(colleges[0]);
   const [appliedDepartments, setAppliedDepartments] = useState<string[]>([]);
@@ -85,6 +81,7 @@ export function MobileLabExplorer({ labs }: MobileLabExplorerProps) {
   const [draftDepartments, setDraftDepartments] = useState<string[]>([]);
   const [draftFields, setDraftFields] = useState<string[]>([]);
   const [fieldQuery, setFieldQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (!activeSheet) return;
@@ -107,6 +104,12 @@ export function MobileLabExplorer({ labs }: MobileLabExplorerProps) {
   const filteredLabs = useMemo(
     () =>
       labs.filter((lab) => {
+        const normalizedSearchQuery = searchQuery.trim().toLocaleLowerCase("ko-KR");
+        const matchesSearch =
+          !normalizedSearchQuery ||
+          [lab.name, lab.professorName, lab.department, ...lab.tags].some((value) =>
+            value.toLocaleLowerCase("ko-KR").includes(normalizedSearchQuery),
+          );
         const matchesField =
           appliedFields.length === 0 ||
           appliedFields.some((field) => lab.tags.includes(field));
@@ -114,9 +117,9 @@ export function MobileLabExplorer({ labs }: MobileLabExplorerProps) {
           appliedDepartments.length === 0 ||
           appliedDepartments.includes(lab.department);
 
-        return matchesField && matchesDepartment;
+        return matchesSearch && matchesField && matchesDepartment;
       }),
-    [appliedDepartments, appliedFields, labs],
+    [appliedDepartments, appliedFields, labs, searchQuery],
   );
 
   const visibleFields = researchFields.filter((field) =>
@@ -148,20 +151,18 @@ export function MobileLabExplorer({ labs }: MobileLabExplorerProps) {
   return (
     <>
       <div className="flex flex-col gap-5">
-        <div className="flex h-[37px] w-full items-center overflow-hidden rounded-[var(--radius-xl)] border border-border-subtle bg-bg-default">
-          <button
-            aria-haspopup="dialog"
-            className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 px-3 text-left focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-border-primary"
-            onClick={() => setActiveSheet("search")}
-            type="button"
-          >
-            <Image alt="" height={16} src="/icons/home/mobile/search.svg" width={16} />
-            <span className="truncate text-[length:var(--font-size-caption1)] text-text-subtle">
-              연구실명 · 교수명 · 키워드 검색
-            </span>
-          </button>
+        <div className="flex h-[37px] w-full items-center gap-2 overflow-hidden rounded-[var(--radius-xl)] border border-border-subtle bg-bg-default px-3 focus-within:border-border-primary">
+          <Image alt="" height={16} src="/icons/home/mobile/search.svg" width={16} />
+          <input
+            aria-label="연구실명, 교수명 또는 키워드 검색"
+            className="min-w-0 flex-1 bg-transparent text-[length:var(--font-size-caption1)] leading-[1.5] text-text-default outline-none placeholder:text-text-subtle"
+            onChange={(event) => setSearchQuery(event.target.value)}
+            placeholder="연구실명 · 교수명 · 키워드 검색"
+            type="search"
+            value={searchQuery}
+          />
           <Link
-            className="mr-1.5 inline-flex shrink-0 items-center gap-0.5 rounded-[var(--radius-lg)] bg-[linear-gradient(90deg,#a7c0db_0%,#b4bade_33%,#c2aed6_66%,#d699c5_100%)] px-2.5 py-1 text-[length:var(--font-size-caption2)] font-semibold leading-[1.5] text-text-inverse focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-primary"
+            className="inline-flex shrink-0 items-center gap-0.5 rounded-[var(--radius-lg)] bg-[linear-gradient(90deg,#a7c0db_0%,#b4bade_33%,#c2aed6_66%,#d699c5_100%)] px-2.5 py-1 text-[length:var(--font-size-caption2)] font-semibold leading-[1.5] text-text-inverse focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-primary"
             href="/recommendations"
           >
             <Image alt="" height={12} src="/icons/home/ai-button-sparkles.svg" width={12} />
@@ -182,7 +183,7 @@ export function MobileLabExplorer({ labs }: MobileLabExplorerProps) {
 
         <section className="flex flex-col gap-5">
           <h2 className="px-0.5 text-[length:var(--font-size-heading2)] font-semibold leading-[1.5] tracking-[-0.01em] text-text-default">
-            {appliedFields.length || appliedDepartments.length
+            {searchQuery.trim() || appliedFields.length || appliedDepartments.length
               ? `필터 결과 · ${filteredLabs.length}개 연구실`
               : "인기 연구실 둘러보기"}
           </h2>
@@ -205,22 +206,6 @@ export function MobileLabExplorer({ labs }: MobileLabExplorerProps) {
             if (event.currentTarget === event.target) setActiveSheet(null);
           }}
         >
-          {activeSheet === "search" ? (
-            <BottomSheet
-              aria-modal="true"
-              className="max-w-none"
-              onClose={() => setActiveSheet(null)}
-              title="연구실 검색"
-            >
-              <LabSearchCombobox
-                autoFocus
-                className="max-w-none md:max-w-none"
-                labs={labs}
-                onSelect={(lab) => router.push(`/labs/${encodeURIComponent(lab.id)}`)}
-              />
-            </BottomSheet>
-          ) : null}
-
           {activeSheet === "field" ? (
             <BottomSheet
               aria-modal="true"
