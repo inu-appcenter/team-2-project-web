@@ -23,6 +23,7 @@ export const Default: Story = {};
 export const Focus: Story = { args: { autoFocus: true } };
 export const Typing: Story = { args: { defaultValue: "입력중..." } };
 export const Error: Story = { args: { error: "입력 내용을 확인해 주세요." } };
+export const Invalid: Story = { args: { invalid: true } };
 export const Disabled: Story = { args: { disabled: true } };
 
 export const InputStates: Story = {

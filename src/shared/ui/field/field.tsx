@@ -10,6 +10,7 @@ import { useId } from "react";
 type FieldBaseProps = {
   label?: string;
   error?: string;
+  invalid?: boolean;
   trailing?: ReactNode;
 };
 
@@ -39,6 +40,7 @@ export function Field({
   disabled,
   error,
   id,
+  invalid = false,
   label,
   trailing,
   ...props
@@ -46,6 +48,7 @@ export function Field({
   const generatedId = useId();
   const inputId = id ?? generatedId;
   const errorId = `${inputId}-error`;
+  const hasError = Boolean(error) || invalid;
 
   return (
     <label
@@ -54,11 +57,11 @@ export function Field({
     >
       {label ? <span className={labelClassName}>{label}</span> : null}
       <span
-        className={`flex h-[44px] items-center overflow-hidden rounded-[var(--radius-xl)] border py-[var(--spacing-spacing-3)] pl-[var(--spacing-spacing-4)] pr-[var(--spacing-spacing-3)] transition-colors ${fieldStateClassName} ${error ? "border-border-error focus-within:border-border-error" : ""} ${disabled ? "border-border-disabled bg-bg-disabled" : ""}`}
+        className={`flex h-[44px] items-center overflow-hidden rounded-[var(--radius-xl)] border py-[var(--spacing-spacing-3)] pl-[var(--spacing-spacing-4)] pr-[var(--spacing-spacing-3)] transition-colors ${fieldStateClassName} ${hasError ? "border-border-error focus-within:border-border-error" : ""} ${disabled ? "border-border-disabled bg-bg-disabled" : ""}`}
       >
         <input
           aria-describedby={error ? errorId : undefined}
-          aria-invalid={Boolean(error)}
+          aria-invalid={hasError}
           className={`min-w-0 flex-1 bg-transparent text-[length:var(--font-size-label2)] font-normal leading-[1.5] text-text-default outline-none placeholder:text-text-subtle disabled:cursor-not-allowed disabled:text-text-disabled disabled:placeholder:text-text-disabled ${className ?? ""}`}
           disabled={disabled}
           id={inputId}
@@ -80,12 +83,14 @@ export function Textarea({
   disabled,
   error,
   id,
+  invalid = false,
   label,
   ...props
 }: TextareaProps) {
   const generatedId = useId();
   const textareaId = id ?? generatedId;
   const errorId = `${textareaId}-error`;
+  const hasError = Boolean(error) || invalid;
 
   return (
     <label
@@ -95,8 +100,8 @@ export function Textarea({
       {label ? <span className={labelClassName}>{label}</span> : null}
       <textarea
         aria-describedby={error ? errorId : undefined}
-        aria-invalid={Boolean(error)}
-      className={`h-[96px] w-full resize-none rounded-[var(--radius-xl)] border p-[var(--spacing-spacing-3)] text-[length:var(--font-size-caption1)] font-normal leading-[1.5] text-text-default outline-none transition-colors placeholder:text-text-subtle hover:bg-bg-subtle focus:border-border-primary disabled:cursor-not-allowed disabled:border-border-disabled disabled:bg-bg-disabled disabled:text-text-disabled disabled:placeholder:text-text-disabled ${error ? "border-border-error focus:border-border-error" : "border-border-subtle"} ${className ?? ""}`}
+        aria-invalid={hasError}
+        className={`h-[96px] w-full resize-none rounded-[var(--radius-xl)] border p-[var(--spacing-spacing-3)] text-[length:var(--font-size-caption1)] font-normal leading-[1.5] text-text-default outline-none transition-colors placeholder:text-text-subtle hover:bg-bg-subtle focus:border-border-primary disabled:cursor-not-allowed disabled:border-border-disabled disabled:bg-bg-disabled disabled:text-text-disabled disabled:placeholder:text-text-disabled ${hasError ? "border-border-error focus:border-border-error" : "border-border-subtle"} ${className ?? ""}`}
         disabled={disabled}
         id={textareaId}
         {...props}
