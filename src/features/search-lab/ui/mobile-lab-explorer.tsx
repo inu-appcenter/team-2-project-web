@@ -200,7 +200,7 @@ export function MobileLabExplorer({ labs }: MobileLabExplorerProps) {
 
       {activeSheet ? (
         <div
-          className="fixed inset-0 z-[100] flex items-end bg-[var(--color-opacity-black-25)] md:hidden"
+          className="fixed inset-0 z-[100] flex items-end bg-[var(--color-opacity-black-50)] md:hidden"
           onMouseDown={(event) => {
             if (event.currentTarget === event.target) setActiveSheet(null);
           }}
@@ -231,12 +231,13 @@ export function MobileLabExplorer({ labs }: MobileLabExplorerProps) {
               <SearchField
                 autoFocus
                 elevated
+                hoverBackground={false}
                 onChange={(event) => setFieldQuery(event.target.value)}
                 placeholder="분야 검색"
                 size="sm"
                 value={fieldQuery}
               />
-              <div className="flex flex-wrap gap-1.5 py-1">
+              <div className="flex flex-wrap gap-1.5">
                 {visibleFields.map((field) => (
                   <Checkbox
                     appearance="chip"
@@ -248,7 +249,7 @@ export function MobileLabExplorer({ labs }: MobileLabExplorerProps) {
                   </Checkbox>
                 ))}
               </div>
-              <div className="mt-2 flex items-center justify-between">
+              <div className="flex items-center justify-between">
                 <span className="text-[length:var(--font-size-body2)] text-text-default">
                   {draftFields.length}개 선택됨
                 </span>
@@ -275,13 +276,14 @@ export function MobileLabExplorer({ labs }: MobileLabExplorerProps) {
               <SearchField
                 autoFocus
                 elevated
+                hoverBackground={false}
                 onChange={(event) => setDepartmentQuery(event.target.value)}
                 placeholder="학과 검색"
                 size="sm"
                 value={departmentQuery}
               />
-              <div className="-mx-5 flex h-[264px] border-y border-border-subtlest">
-                <div className="w-[108px] shrink-0 overflow-y-auto bg-bg-neutral p-1">
+              <div className="-mx-5 flex h-[264px] overflow-hidden bg-bg-default">
+                <div className="w-[108px] shrink-0 overflow-y-auto border-r border-border-subtlest bg-bg-neutral p-1">
                   {colleges.map((college) => (
                     <button
                       className={`flex h-11 w-full cursor-pointer items-center rounded-[var(--radius-xl)] px-4 text-left text-[length:var(--font-size-body3)] ${activeCollege === college ? "bg-bg-default font-semibold text-[#465f83] shadow-[0_1px_4px_rgba(0,0,0,0.08)]" : "text-text-subtle"}`}
@@ -308,7 +310,7 @@ export function MobileLabExplorer({ labs }: MobileLabExplorerProps) {
                   ))}
                 </div>
               </div>
-              <div className="mt-2 flex items-center justify-between">
+              <div className="flex items-center justify-between">
                 <span className="text-[length:var(--font-size-body2)] text-text-default">
                   {draftDepartments.length}개 선택됨
                 </span>

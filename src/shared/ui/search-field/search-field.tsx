@@ -9,6 +9,7 @@ type SearchFieldRounded = "all" | "top";
 
 export type SearchFieldProps = Omit<InputHTMLAttributes<HTMLInputElement>, "size"> & {
   elevated?: boolean;
+  hoverBackground?: boolean;
   onSearch?: (value: string) => void;
   rounded?: SearchFieldRounded;
   size?: SearchFieldSize;
@@ -41,6 +42,7 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(
       className,
       disabled,
       elevated = true,
+      hoverBackground = true,
       onKeyDown,
       onSearch,
       rounded = "all",
@@ -60,7 +62,7 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(
 
     return (
       <div
-        className={`flex items-center border border-border-subtle bg-bg-default transition-colors hover:bg-bg-subtle focus-within:border-border-primary focus-within:bg-bg-default has-[:disabled]:border-border-disabled has-[:disabled]:bg-bg-disabled ${elevated ? (size === "sm" ? "shadow-[0_2px_8px_var(--color-opacity-black-10)]" : "shadow-[0_4px_16px_var(--color-opacity-black-10)]") : "shadow-none"} ${sizeClasses[size]} ${roundedClasses[size][rounded]}`}
+        className={`flex items-center border border-border-subtle bg-bg-default transition-colors focus-within:border-border-primary focus-within:bg-bg-default has-[:disabled]:border-border-disabled has-[:disabled]:bg-bg-disabled ${hoverBackground ? "hover:bg-bg-subtle" : ""} ${elevated ? (size === "sm" ? "shadow-[0_2px_8px_var(--color-opacity-black-10)]" : "shadow-[0_4px_16px_var(--color-opacity-black-10)]") : "shadow-none"} ${sizeClasses[size]} ${roundedClasses[size][rounded]}`}
       >
         <input
           {...props}

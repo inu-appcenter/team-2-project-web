@@ -40,7 +40,7 @@ export function BottomSheet({
           </button>
         ) : null}
       </header>
-      <div className="flex w-full flex-col gap-[var(--spacing-spacing-1)] px-[var(--spacing-spacing-5)]">
+      <div className="flex w-full flex-col gap-[var(--spacing-spacing-4)] px-[var(--spacing-spacing-5)]">
         {children}
       </div>
     </section>
