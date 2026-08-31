@@ -25,7 +25,7 @@ export function LabSearchResultItem({
       role="option"
     >
       <button
-        className="flex w-full items-center gap-[var(--spacing-spacing-2)] px-[var(--spacing-spacing-4)] py-[14px] text-left hover:bg-bg-subtle focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-border-primary"
+        className="flex w-full cursor-pointer items-center gap-[var(--spacing-spacing-2)] px-[var(--spacing-spacing-4)] py-[14px] text-left hover:bg-bg-subtle focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-border-primary"
         onClick={() => onSelect(lab)}
         tabIndex={-1}
         type="button"

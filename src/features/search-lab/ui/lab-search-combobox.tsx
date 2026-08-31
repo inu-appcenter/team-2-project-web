@@ -9,6 +9,8 @@ import { SearchField } from "@/shared/ui";
 import { useLabSearch } from "../model/use-lab-search";
 
 type LabSearchComboboxProps = {
+  autoFocus?: boolean;
+  className?: string;
   errorMessage?: string;
   isLoading?: boolean;
   labs?: LabSummary[];
@@ -18,6 +20,8 @@ type LabSearchComboboxProps = {
 };
 
 export function LabSearchCombobox({
+  autoFocus = false,
+  className,
   errorMessage,
   isLoading = false,
   labs = MOCK_LABS,
@@ -67,12 +71,13 @@ export function LabSearchCombobox({
   }
 
   return (
-    <div className="ml-auto w-full max-w-[300px] md:max-w-[444px]">
+    <div className={`ml-auto w-full max-w-[300px] md:max-w-[444px] ${className ?? ""}`}>
       <div className="overflow-hidden rounded-[var(--radius-2xl)] bg-bg-default shadow-[0_4px_16px_var(--color-opacity-black-10)]">
         <label className="sr-only" htmlFor={`${listboxId}-input`}>
           연구실 이름 또는 교수명 검색
         </label>
         <SearchField
+          autoFocus={autoFocus}
           aria-activedescendant={shouldShowResults ? activeOptionId : undefined}
           aria-autocomplete="list"
           aria-controls={listboxId}

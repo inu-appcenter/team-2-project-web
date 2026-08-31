@@ -137,7 +137,7 @@ export function OnboardingFlow({
                 이제 “똑똑”에서 자세한 연구실 정보를 확인해보세요!
               </p>
               <Link
-                className="mt-[var(--spacing-spacing-3)] inline-flex items-center justify-center gap-[var(--spacing-spacing-1-5)] rounded-[var(--radius-md)] border border-[color:var(--color-bg-primary-hover)] bg-bg-default px-[var(--spacing-spacing-6)] py-[var(--spacing-spacing-3)] text-[length:var(--font-size-headline1)] font-semibold leading-[1.4] text-[color:var(--color-bg-primary-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-primary"
+                className="mt-[var(--spacing-spacing-3)] inline-flex cursor-pointer items-center justify-center gap-[var(--spacing-spacing-1-5)] rounded-[var(--radius-md)] border border-[color:var(--color-bg-primary-hover)] bg-bg-default px-[var(--spacing-spacing-6)] py-[var(--spacing-spacing-3)] text-[length:var(--font-size-headline1)] font-semibold leading-[1.4] text-[color:var(--color-bg-primary-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-primary"
                 href={completionHref}
               >
                 시작하기
