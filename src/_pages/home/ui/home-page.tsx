@@ -17,7 +17,7 @@ export type HomePageProps = {
 
 export function HomePage({ labs }: HomePageProps) {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-bg-default pb-[calc(72px+env(safe-area-inset-bottom))] text-text-default md:pb-0">
+    <div className="min-h-screen overflow-x-hidden bg-bg-default pb-[calc(111px_+_env(safe-area-inset-bottom))] text-text-default md:pb-0">
       <SiteHeader activeItem="home" />
       <main>
         <div className="px-4 pb-11 pt-[27px] md:hidden">
