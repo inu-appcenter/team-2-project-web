@@ -154,7 +154,7 @@ export function HomePage({ labs }: HomePageProps) {
           </h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
             {labs.length > 0 ? (
-              labs.map((lab) => <LabCard key={lab.id} lab={lab} />)
+              labs.map((lab) => <LabCard key={lab.labId} lab={lab} />)
             ) : (
               <p className="col-span-full py-10 text-center text-[length:var(--font-size-body2)] text-text-subtle">
                 표시할 연구실이 아직 없어요.
