@@ -2,6 +2,8 @@ export { Button } from "./button";
 export type { ButtonProps } from "./button";
 export { BottomSheet } from "./bottom-sheet";
 export type { BottomSheetProps } from "./bottom-sheet";
+export { Dialog } from "./dialog";
+export type { DialogProps } from "./dialog";
 export { Field, Textarea } from "./field";
 export type { FieldProps, TextareaProps } from "./field";
 export { Logo } from "./logo";
