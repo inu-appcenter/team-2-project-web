@@ -45,7 +45,9 @@ export function MobileBottomNav() {
       {items.map((item) => {
         const isActive =
           item.href === "/"
-            ? pathname === item.href
+            ? pathname === item.href ||
+              pathname.startsWith("/labs/") ||
+              pathname.startsWith("/search")
             : pathname === item.href || pathname.startsWith(`${item.href}/`);
         const isAiActive = isActive && item.href === "/recommendations";
         const activeColor = isAiActive ? AI_GRADIENT : "var(--color-text-primary)";
