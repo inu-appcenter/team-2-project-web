@@ -13,7 +13,7 @@ export function OnboardingChat() {
         renderLabSearch={({ onSelect, selectedLabId }) => (
           <LabSearchCombobox
             onClearSelection={() => onSelect("")}
-            onSelect={(lab) => onSelect(lab.id)}
+            onSelect={(lab) => onSelect(lab.labId)}
             selectedLabId={selectedLabId}
           />
         )}

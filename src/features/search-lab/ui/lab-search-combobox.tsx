@@ -35,7 +35,7 @@ export function LabSearchCombobox({
   const listboxId = useId();
   const shouldShowResults = isOpen && query.trim().length > 0;
   const activeResult = results[activeIndex];
-  const activeOptionId = activeResult ? `${listboxId}-option-${activeResult.id}` : undefined;
+  const activeOptionId = activeResult ? `${listboxId}-option-${activeResult.labId}` : undefined;
 
   function selectLab(lab: LabSummary) {
     setQuery(lab.name);
@@ -129,11 +129,11 @@ export function LabSearchCombobox({
               results.map((lab, index) => (
                 <LabSearchResultItem
                   active={index === activeIndex}
-                  key={lab.id}
+                  key={lab.labId}
                   lab={lab}
                   onSelect={selectLab}
-                  optionId={`${listboxId}-option-${lab.id}`}
-                  selected={lab.id === selectedLabId}
+                  optionId={`${listboxId}-option-${lab.labId}`}
+                  selected={lab.labId === selectedLabId}
                 />
               ))
             ) : (

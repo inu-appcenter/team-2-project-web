@@ -189,7 +189,7 @@ export function MobileLabExplorer({ labs }: MobileLabExplorerProps) {
           </h2>
           <div className="flex flex-col gap-2">
             {filteredLabs.length > 0 ? (
-              filteredLabs.map((lab) => <LabCard key={lab.id} lab={lab} />)
+              filteredLabs.map((lab) => <LabCard key={lab.labId} lab={lab} />)
             ) : (
               <p className="py-10 text-center text-[length:var(--font-size-body3)] text-text-subtle">
                 조건에 맞는 연구실이 없어요.

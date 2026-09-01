@@ -111,7 +111,7 @@ export function OnboardingFlow({
             {question.id === "lab" ? (
               <SelectedLabCard
                 lab={
-                  MOCK_LABS.find((lab) => lab.id === answers.lab) ?? MOCK_LABS[0]
+                  MOCK_LABS.find((lab) => lab.labId === answers.lab) ?? MOCK_LABS[0]
                 }
               />
             ) : (
